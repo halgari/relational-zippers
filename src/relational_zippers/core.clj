@@ -103,7 +103,7 @@
     (for [[e ent] ents
           [attr val] ent
           :when (identical? val id)]
-      val))
+      e))
 
   (assert-datom [this e attr val]
     (assert (get ents e) (str "Entity" e " does not exist"))
@@ -139,14 +139,28 @@
         (goto new-id))))
 
 
-(-> (assert-item (DataSource. {}) {:foo 1 :bar 2 :m {:zoo 44}})
-    (assoc-in [:cool :m :r :foo] 433)
 
-    (children)
-    first
-    parents
-    first
-    #_data-source
-    #_(datoms)
+(defmulti export type)
 
-    #_(get :bar))
+(defmethod export :default
+  [x]
+  x)
+
+(defmethod export Cursor
+  [x]
+  (zipmap (keys x)
+          (map export (vals x))))
+
+
+(defn memory-data-source []
+  (DataSource. {}))
+
+(comment
+
+  (-> (assert-item (DataSource. {}) {:foo 1 :bar 2 :m {:zoo 44}})
+      (assoc-in [:cool :m :r :foo] 433)
+      export
+      #_data-source
+      #_(datoms)
+
+      #_(get :bar)))
