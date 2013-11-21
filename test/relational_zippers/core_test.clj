@@ -14,7 +14,10 @@
                     {:a 42
                      :b 43}
                     {:a 42
-                     :b {:foo 44}}]]
+                     :b {:foo 44}}
+                    [1 2]
+                    [{:a 1
+                      :b [42]}]]]
     (doseq [f test-forms]
       (is (= f (round-trip f))))))
 
@@ -50,4 +53,10 @@
                parents
                first
                export)
-           form))))
+           form))
+
+    (is (= (-> start-cursor
+               :b
+               :bar
+               :z)
+           33))))
