@@ -22,6 +22,7 @@
   (query-by [this mask vals])
   (query-by-e [this e] "returns a seq of av tuples where (= e e)")
   (query-by-ea [this e a not-found])
+  (entity-size [this id])
   (ids [this] "returns a seq of all ids")
   (type-of-entity [this id] "returns :vector :map, etc based on the type of the entity")
 

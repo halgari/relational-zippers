@@ -148,6 +148,10 @@
                                      ]
                                  [id a v]))))
 
+  (entity-size [this id]
+    (let [ent (get ents id)]
+      (count (seq ent))))
+
   (new-entity [this id]
     (assert (not (get ents id)) (str "Entity " id " already exists"))
     (assoc-in this [:ents id] (->Entity)))
